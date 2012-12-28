@@ -1,4 +1,9 @@
 body {background: url("digital.png")}
-table.display {width: 280px; padding-left: 20px; padding-top: 40px; }
-td.display {font-size: 60px; text-align: center; }
-table.timer {position:absolute; bottom:10px;}
+table.display {width: 280px; padding-left: 45px; padding-top: 30px; }
+td.display {font-size: 80px; }
+td#time_m {text-align: right; }
+td#time_s {text-align: left; }
+td#time_m {min-width: 100px; }
+td#time_s {min-width: 100px; }
+table.timer {position:absolute; bottom:10px; padding-left: 20px;}
+.ui-page {background: url("digital.png");}

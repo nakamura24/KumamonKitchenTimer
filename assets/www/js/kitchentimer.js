@@ -39,16 +39,10 @@ function Timer()
 	this.drawTime = function()
 	{
 		var m = String(Math.floor(this.data.lastTime / 60));
-		var s = String(this.data.lastTime % 60);
+		var s = String(this.data.lastTime % 60 + 100);
 		
 		document.getElementById('time_m').innerHTML  = m;
-		document.getElementById('time_s').innerHTML  = s;
-		
-		if(this.data.doing && this.data.lastTime <= 0)
-		{
-			this.stop();
-			playBeep();
-		}
+		document.getElementById('time_s').innerHTML  = s.substr(1);
 	}
 	
 	this.addTime = function(val)
@@ -59,11 +53,11 @@ function Timer()
 	
 	this.start = function()
 	{
-		if(this.data.lastTime > 0)
+		if(!this.data.doing && this.data.lastTime > 0)
 		{
 			this.data.doing = true;
 			this.data.timerID = setInterval('timer.tick();',1000);
-			document.getElementById('btn_start_or_stop').value = 'ストップ';
+			this.drawTime();
 		}
 	}
 	
@@ -72,19 +66,6 @@ function Timer()
 		this.data.doing = false;
 		clearInterval(this.data.timerID);
 		this.data.timerID = null;
-		document.getElementById('btn_start_or_stop').value = 'スタート';
-	}
-	
-	this.startOrStop = function()
-	{
-		if(this.data.doing)
-		{
-			this.stop();
-		}	
-		else
-		{
-			this.start();
-		}
 		this.drawTime();
 	}
 	
@@ -99,5 +80,11 @@ function Timer()
 	{
 		this.data.lastTime--;
 		this.drawTime();
+		
+		if(this.data.doing && this.data.lastTime <= 0)
+		{
+			this.stop();
+			playBeep();
+		}
 	}
 }
