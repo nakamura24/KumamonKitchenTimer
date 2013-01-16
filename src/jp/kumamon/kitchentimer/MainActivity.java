@@ -8,7 +8,7 @@
  * 		http://creativecommons.org/licenses/by-nc-sa/2.1/jp/legalcode
  */
 
-package jp.kumamonkitchentimer;
+package jp.kumamon.kitchentimer;
 
 import org.apache.cordova.*;
 import android.os.Bundle;
