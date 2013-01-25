@@ -9,7 +9,7 @@
     <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.2.0.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/kitchentimer.js"></script>
 </head>
-<body onload="init();">
+<body>
 	<form>
 		<table class="display">
 			<tr>
@@ -20,14 +20,14 @@
 		</table>
 		<table class="timer">
 			<tr>
-				<td><input type="button" id="btn_ten_min" value="5分" onclick="timer.addTime(300);" /></td>
-				<td><input type="button" id="btn_one_min" value="1分" onclick="timer.addTime(60);" /></td>
-				<td><input type="button" id="btn_ten_min" value="10秒" onclick="timer.addTime(10);" /></td>
+				<td><input type="button" id="btn_five_min" value="5分" /></td>
+				<td><input type="button" id="btn_one_min" value="1分" /></td>
+				<td><input type="button" id="btn_ten_sec" value="10秒" /></td>
 			</tr>
 			<tr>
-				<td><input type="button" id="btn_start" value="Start" onclick="timer.start();" /></td>
-				<td><input type="button" id="btn_stop" value="Stop" onclick="timer.stop();" /></td>
-				<td><input type="button" id="btn_reset" value="Reset" onclick="timer.reset();" /></td>
+				<td><input type="button" id="btn_start" value="Start" /></td>
+				<td><input type="button" id="btn_stop" value="Stop" /></td>
+				<td><input type="button" id="btn_reset" value="Reset" /></td>
 			</tr>
 		</table>
 	</form>

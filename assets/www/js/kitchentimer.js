@@ -8,35 +8,22 @@
  * 		http://creativecommons.org/licenses/by-nc-sa/2.1/jp/legalcode
  */
 
-    // Cordova の読み込み完了まで待機
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // Cordova 準備完了
-    //
-    function onDeviceReady() {
-        // 処理なし
-    }
-
-    // 警告音を3回鳴らす
-    //
-    function playBeep() {
-        navigator.notification.beep(3);
-    }
-
-    // 2秒間バイブレーションさせます
-    //
-    function vibrate() {
-        navigator.notification.vibrate(2000);
-    }
-
 var timer = null;
+var	cordova = null;
 
-function init()
-{
+$(function(){
 	timer = new Timer();
 	timer.init();
-}
+	cordova = new Cordova();
+	cordova.init();
+
+	$("input#btn_five_min").click(function(){	timer.addTime(300);});
+	$("input#btn_one_min").click(function(){	timer.addTime(60);});
+	$("input#btn_ten_sec").click(function(){	timer.addTime(10);});
+	$("input#btn_start").click(function(){	timer.start();});
+	$("input#btn_stop").click(function(){	timer.stop();});
+	$("input#btn_reset").click(function(){	timer.reset();});
+});
 
 function Timer()
 {
@@ -51,13 +38,13 @@ function Timer()
 		var m = String(Math.floor(this.data.lastTime / 60));
 		var s = String(this.data.lastTime % 60 + 100);
 		
-		document.getElementById('time_m').innerHTML  = m;
-		document.getElementById('time_s').innerHTML  = s.substr(1);
+		$("td#time_m").html(m);
+		$("td#time_s").html(s.substr(1));
 	}
 	
-	this.addTime = function(val)
+	this.addTime = function(value)
 	{
-		this.data.lastTime += val;
+		this.data.lastTime += value;
 		this.drawTime();
 	}
 	
@@ -94,7 +81,35 @@ function Timer()
 		if(this.data.doing && this.data.lastTime <= 0)
 		{
 			this.stop();
-			playBeep();
+			cordova.playBeep(3);
 		}
 	}
+}
+
+function Cordova()
+{
+    // Cordova の読み込み完了まで待機
+    //
+	this.init = function()
+	{
+    	document.addEventListener("deviceready", this.onDeviceReady, false);
+    }
+
+    // Cordova 準備完了
+    //
+    this.onDeviceReady = function() {
+        // 処理なし
+    }
+
+    // 警告音を鳴らす
+    //
+    this.playBeep = function(value) {
+        navigator.notification.beep(value);
+    }
+
+    // バイブレーションさせます
+    //
+    this.vibrate = function(value) {
+        navigator.notification.vibrate(value);
+    }
 }
