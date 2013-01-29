@@ -8,15 +8,19 @@
  * 		http://creativecommons.org/licenses/by-nc-sa/2.1/jp/legalcode
  */
 
-var timer = null;
+var	timer = null;
 var	cordova = null;
 
 $(function(){
 	timer = new Timer();
+	// タイマ 初期化
 	timer.init();
+
 	cordova = new Cordova();
+	// Cordova 初期化
 	cordova.init();
 
+	// Buttonにクリック時の処理をバインド
 	$("input#btn_five_min").click(function(){	timer.addTime(300);});
 	$("input#btn_one_min").click(function(){	timer.addTime(60);});
 	$("input#btn_ten_sec").click(function(){	timer.addTime(10);});
@@ -25,16 +29,15 @@ $(function(){
 	$("input#btn_reset").click(function(){	timer.reset();});
 });
 
-function Timer()
-{
-	this.init = function()
-	{
+function Timer() {
+	// タイマ 初期化
+	this.init = function() {
 		this.data = { lastTime : 0, timerID : null, doing : false };
 		this.drawTime();
 	};
 	
-	this.drawTime = function()
-	{
+	// 時間を表示
+	this.drawTime = function() {
 		var m = String(Math.floor(this.data.lastTime / 60));
 		var s = String(this.data.lastTime % 60 + 100);
 		
@@ -42,74 +45,72 @@ function Timer()
 		$("td#time_s").html(s.substr(1));
 	}
 	
-	this.addTime = function(value)
-	{
+	// タイマカウンタに追加
+	this.addTime = function(value) {
 		this.data.lastTime += value;
 		this.drawTime();
 	}
 	
-	this.start = function()
-	{
-		if(!this.data.doing && this.data.lastTime > 0)
-		{
+	// タイマ開始
+	this.start = function() {
+		if(!this.data.doing && this.data.lastTime > 0) {
 			this.data.doing = true;
-			this.data.timerID = setInterval('timer.tick();',1000);
+			this.data.timerID = setInterval('timer.tick();', 1000);
 			this.drawTime();
 		}
 	}
 	
-	this.stop = function()
-	{
+	// タイマ停止
+	this.stop = function() {
 		this.data.doing = false;
 		clearInterval(this.data.timerID);
 		this.data.timerID = null;
 		this.drawTime();
 	}
 	
-	this.reset = function()
-	{
+	// タイマリセット
+	this.reset = function() {
 		this.stop();
 		this.data.lastTime = 0;
 		this.drawTime();
 	}
 	
-	this.tick = function()
-	{
+	// タイマカウントダウン
+	this.tick = function() {
 		this.data.lastTime--;
 		this.drawTime();
 		
-		if(this.data.doing && this.data.lastTime <= 0)
-		{
+		// カウントが０
+		if(this.data.doing && this.data.lastTime <= 0) {
+			// タイマ停止
 			this.stop();
+			// 警告音を３回鳴らす
 			cordova.playBeep(3);
 		}
 	}
 }
 
-function Cordova()
-{
-    // Cordova の読み込み完了まで待機
-    //
-	this.init = function()
-	{
-    	document.addEventListener("deviceready", this.onDeviceReady, false);
-    }
+function Cordova() {
+	// Cordova 初期化
+	this.init = function() {
+		// Cordova の読み込み完了まで待機
+		document.addEventListener("deviceready", this.onDeviceReady, false);
+	}
 
-    // Cordova 準備完了
-    //
-    this.onDeviceReady = function() {
-        // 処理なし
-    }
+	// Cordova 準備完了
+	this.onDeviceReady = function() {
+		// 処理なし
+	}
 
-    // 警告音を鳴らす
-    //
-    this.playBeep = function(value) {
-        navigator.notification.beep(value);
-    }
+	// 警告音を鳴らす
+	this.playBeep = function(value) {
+		// 警告音を鳴らす
+		navigator.notification.beep(value);
+	}
 
-    // バイブレーションさせます
-    //
-    this.vibrate = function(value) {
-        navigator.notification.vibrate(value);
-    }
+	// バイブレーションさせます
+	this.vibrate = function(value) {
+		// バイブレーションさせます
+		navigator.notification.vibrate(value);
+	}
 }
